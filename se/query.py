@@ -2,12 +2,11 @@ from __future__ import annotations
 
 import json
 
+from .index import Index
+
 
 class Node:
-    def evaluate(self, index):
-        return set()
-
-    def get_terms(self):
+    def evaluate(self, index: Index):
         return set()
 
 
@@ -16,11 +15,8 @@ class Term(Node):
         super().__init__()
         self.term = term
 
-    def evaluate(self, index):
-        return set(index[self.term])
-
-    def get_terms(self):
-        return set((self.term,))
+    def evaluate(self, index: Index):
+        return set(index.find(self.term))
 
 
 class Operation(Node):
@@ -31,16 +27,10 @@ class Operation(Node):
     def combine(self, result, new_results):
         return set()
 
-    def evaluate(self, index):
+    def evaluate(self, index: Index):
         result = self.nodes[0].evaluate(index)
         for node in self.nodes[1:]:
             result = self.combine(result, node.evaluate(index))
-        return result
-
-    def get_terms(self):
-        result = set()
-        for node in self.nodes:
-            result |= node.get_terms()
         return result
 
 
@@ -76,11 +66,20 @@ def build_query(query):
         elif node_type == "or":
             return OpOr(arg_list)
         else:
-            raise KeyError(f"Operação {node_type} desconhecida.")
+            raise KeyError(f"Unknown operation {node_type}!")
 
 
 def parse_raw_query(raw_query: str):
-    return raw_query.split()
+    q = raw_query.split()
+
+    result = f'["term", "{q[0]}"]'
+    if len(q) % 2 == 0:
+        raise Exception("Incomplete query!")
+    elif len(q) > 1:
+        if q[1] in ["and", "or"]:
+            result = f'["{q[1]}", {result}, {parse_raw_query(" ".join(q[2:]))}]'
+
+    return result
 
 
 def parse_json_query(json_query: str):
