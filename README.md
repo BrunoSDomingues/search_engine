@@ -1,13 +1,22 @@
-# Uma máquina de busca para fins didáticos.
+# Uma máquina de busca para fins didáticos
 
-## Instruções
+Bruno Domingues  
+Michel José Moraes  
 
-- Faça um *fork* deste repositório para poder receber atualizações eventuais. Para saber como fazer um *fork*, veja https://docs.github.com/en/github/getting-started-with-github/fork-a-repo.
+## Conceitos
 
-- Abra um terminal e vá para o diretório deste repositório.
+### Conceitos básicos
 
-- Rode `config.bat` (no Windows) ou `config.sh` (Linux/Mac) para colocar este diretório no `PYTHONPATH`.
+- Limpeza de dados + normalização;
+- Queries booleanas;
+- Retrieval booleano;
+- Ranking tf-idf;
 
-- Abra seu ambiente de desenvolvimento (seu editor favorito, ou jupyter notebook, etc) a partir deste terminal para fazer uso da variável de ambiente `PYTHONPATH` atualizada.
+## Execução
 
-Tem jeito melhor? Tem, mas fica pra o Igor mostrar para vocês na eletiva de software livre!
+1) Rodar o comando `./config.sh`
+2) Rodar o comando `./run.sh "query1 (and/or query2 and/or query3)"`.
+
+## Fonte de dados
+
+Dados podem ser encontrados em <https://www.kaggle.com/kingburrito666/better-donald-trump-tweets>
